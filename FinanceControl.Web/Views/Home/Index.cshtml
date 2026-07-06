@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "Home";
+    var tipoSelecionado = Convert.ToString(Model.Tipo);
+    var dataInicialFiltro = Model.DataInicial == null ? string.Empty : ((DateTime)Model.DataInicial).ToString("yyyy-MM-dd");
+    var dataFinalFiltro = Model.DataFinal == null ? string.Empty : ((DateTime)Model.DataFinal).ToString("yyyy-MM-dd");
+}
+
+@Html.AntiForgeryToken()
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h1 class="h3 mb-1">Minhas finanças</h1>
+        <p class="text-muted mb-0">Acompanhe gastos, ganhos e resultado do período.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="@Url.Action("Form", "Finance")">
+            <i class="fa-solid fa-plus me-1"></i>Adicionar
+        </a>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalRelatorio">
+            <i class="fa-solid fa-file-lines me-1"></i>Relatório
+        </button>
+    </div>
+</div>
+
+<div id="resumoFinanceiro">
+    @Html.Partial("~/Views/Shared/Components/_ResumoFinanceiro.cshtml", (FinanceControl.Core.ViewModels.FinanceListagemViewModel)Model)
+</div>
+
+<div class="toolbar-listagem mb-3">
+    <div class="input-group">
+        <span class="input-group-text">De</span>
+        <input id="dataInicialFiltro" class="form-control" type="date" value="@dataInicialFiltro" aria-label="Data inicial" />
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">Até</span>
+        <input id="dataFinalFiltro" class="form-control" type="date" value="@dataFinalFiltro" aria-label="Data final" />
+    </div>
+    <select id="tipoFiltro" class="form-select" aria-label="Tipo">
+        <option value="">Todos os tipos</option>
+        <option value="1" selected="@(string.Equals(tipoSelecionado, "Gasto") ? "selected" : null)">Gasto</option>
+        <option value="2" selected="@(string.Equals(tipoSelecionado, "Ganho") ? "selected" : null)">Ganho</option>
+    </select>
+    <input id="termoBusca" class="form-control" value="@Model.Termo" placeholder="Buscar pela descrição" />
+
+    <button id="btnBuscar" class="btn btn-outline-primary btn-icon" title="Buscar" aria-label="Buscar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button id="btnLimparFiltros" class="btn btn-outline-secondary btn-icon" title="Limpar filtros" aria-label="Limpar filtros">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+    </button>
+</div>
+
+<div id="areaGrid">
+    @Html.Partial("~/Views/Shared/Components/_Grid.cshtml", (FinanceControl.Core.ViewModels.FinanceListagemViewModel)Model)
+</div>
+
+@Html.Partial("~/Views/Shared/Components/_ModalExclusao.cshtml")
+
+<div class="modal fade" id="modalRelatorio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("Relatorio", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">Gerar relatório</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select class="form-select" name="tipoRelatorio" id="tipoRelatorio">
+                            <option value="mensal">Mensal</option>
+                            <option value="periodo">Por período</option>
+                        </select>
+                    </div>
+                    <div class="row g-3 campo-mensal">
+                        <div class="col-md-6 campo-mensal">
+                            <label class="form-label">Mês</label>
+                            <select class="form-select" name="mes" id="mesRelatorio" required>
+                                <option value="">Selecione</option>
+                                <option value="1" selected="@(DateTime.Today.Month == 1 ? "selected" : null)">Janeiro</option>
+                                <option value="2" selected="@(DateTime.Today.Month == 2 ? "selected" : null)">Fevereiro</option>
+                                <option value="3" selected="@(DateTime.Today.Month == 3 ? "selected" : null)">Março</option>
+                                <option value="4" selected="@(DateTime.Today.Month == 4 ? "selected" : null)">Abril</option>
+                                <option value="5" selected="@(DateTime.Today.Month == 5 ? "selected" : null)">Maio</option>
+                                <option value="6" selected="@(DateTime.Today.Month == 6 ? "selected" : null)">Junho</option>
+                                <option value="7" selected="@(DateTime.Today.Month == 7 ? "selected" : null)">Julho</option>
+                                <option value="8" selected="@(DateTime.Today.Month == 8 ? "selected" : null)">Agosto</option>
+                                <option value="9" selected="@(DateTime.Today.Month == 9 ? "selected" : null)">Setembro</option>
+                                <option value="10" selected="@(DateTime.Today.Month == 10 ? "selected" : null)">Outubro</option>
+                                <option value="11" selected="@(DateTime.Today.Month == 11 ? "selected" : null)">Novembro</option>
+                                <option value="12" selected="@(DateTime.Today.Month == 12 ? "selected" : null)">Dezembro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 campo-ano">
+                            <label class="form-label">Ano</label>
+                            <input class="form-control" name="ano" id="anoRelatorio" type="number" min="1900" max="9999" step="1" value="@DateTime.Today.Year" required />
+                        </div>
+                    </div>
+                    <div class="row g-3 campo-periodo d-none">
+                        <div class="col-md-6 campo-periodo d-none">
+                            <label class="form-label">Data inicial</label>
+                            <input class="form-control" name="dataInicial" id="dataInicialRelatorio" type="date" />
+                        </div>
+                        <div class="col-md-6 campo-periodo d-none">
+                            <label class="form-label">Data final</label>
+                            <input class="form-control" name="dataFinal" id="dataFinalRelatorio" type="date" />
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Formato</label>
+                        <select class="form-select" name="formato" id="formatoRelatorio" required>
+                            <option value="xlsx">Excel (.xlsx)</option>
+                            <option value="pdf">PDF (.pdf)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-file-arrow-down me-1"></i>Gerar
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function filtrosGrid(pagina) {
+            return {
+                termo: $('#termoBusca').val(),
+                tipo: $('#tipoFiltro').val(),
+                dataInicial: $('#dataInicialFiltro').val(),
+                dataFinal: $('#dataFinalFiltro').val(),
+                pagina: pagina || 1
+            };
+        }
+
+        function recarregarGrid(pagina) {
+            $.get('@Url.Action("Grid", "Home")', filtrosGrid(pagina), function (html) {
+                var resposta = $('<div>').append($.parseHTML(html));
+                $('#resumoFinanceiro').html(resposta.find('#resumoFinanceiro').html());
+                $('#areaGrid').html(resposta.find('#areaGrid').html());
+            });
+        }
+
+        $('#btnBuscar').on('click', function () { recarregarGrid(1); });
+        $('#btnLimparFiltros').on('click', function () {
+            $('#termoBusca').val('');
+            $('#tipoFiltro').val('');
+            $('#dataInicialFiltro').val('');
+            $('#dataFinalFiltro').val('');
+            recarregarGrid(1);
+        });
+
+        $('#termoBusca, #dataInicialFiltro, #dataFinalFiltro').on('keypress', function (e) {
+            if (e.which === 13) { recarregarGrid(1); }
+        });
+
+        $('#areaGrid').on('click', '.pagina-link', function () {
+            recarregarGrid($(this).data('pagina'));
+        });
+
+        $('#areaGrid').on('click', '.btn-excluir-financa', function () {
+            $('#modalConfirmacao').data('id', $(this).data('id')).modal('show');
+        });
+
+        $('#btnConfirmarExclusao').on('click', function () {
+            $.post('@Url.Action("Excluir", "Finance")', {
+                id: $('#modalConfirmacao').data('id'),
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').first().val()
+            }, function (retorno) {
+                $('#modalConfirmacao').modal('hide');
+                if (retorno.sucesso) { recarregarGrid(1); }
+                else { alert(retorno.mensagem); }
+            });
+        });
+
+        function atualizarCamposRelatorio() {
+            var tipo = $(this).val();
+            var mensal = tipo === 'mensal';
+            $('.campo-mensal').toggleClass('d-none', !mensal);
+            $('.campo-periodo').toggleClass('d-none', mensal);
+            $('#mesRelatorio, #anoRelatorio').prop('required', mensal);
+            $('#dataInicialRelatorio, #dataFinalRelatorio').prop('required', !mensal);
+        }
+
+        $('#tipoRelatorio').on('change', atualizarCamposRelatorio);
+        atualizarCamposRelatorio.call($('#tipoRelatorio')[0]);
+
+        $('#anoRelatorio').on('input', function () {
+            this.value = this.value.replace(/\D/g, '').substring(0, 4);
+        });
+
+        $('#modalRelatorio form').on('submit', function (e) {
+            var ano = $('#anoRelatorio').val();
+            var tipo = $('#tipoRelatorio').val();
+            var dataInicial = $('#dataInicialRelatorio').val();
+            var dataFinal = $('#dataFinalRelatorio').val();
+            if (tipo === 'mensal' && !/^\d{4}$/.test(ano)) {
+                $('#anoRelatorio')[0].setCustomValidity('Informe um ano com 4 números.');
+            } else {
+                $('#anoRelatorio')[0].setCustomValidity('');
+            }
+
+            if (tipo === 'periodo' && dataInicial && dataFinal && dataInicial > dataFinal) {
+                $('#dataFinalRelatorio')[0].setCustomValidity('Informe uma data final maior ou igual à data inicial.');
+            } else {
+                $('#dataFinalRelatorio')[0].setCustomValidity('');
+            }
+
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.reportValidity();
+            }
+        });
+    </script>
+}

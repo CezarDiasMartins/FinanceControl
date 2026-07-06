@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="TabelaRelatorioFinanceiro">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn><Width>4cm</Width></TablixColumn>
+            <TablixColumn><Width>3cm</Width></TablixColumn>
+            <TablixColumn><Width>3cm</Width></TablixColumn>
+            <TablixColumn><Width>3cm</Width></TablixColumn>
+            <TablixColumn><Width>3cm</Width></TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell><CellContents><Textbox Name="CabecalhoReferencia"><Value>Referencia</Value></Textbox></CellContents></TablixCell>
+                <TablixCell><CellContents><Textbox Name="CabecalhoGastos"><Value>Gastos</Value></Textbox></CellContents></TablixCell>
+                <TablixCell><CellContents><Textbox Name="CabecalhoGanhos"><Value>Ganhos</Value></Textbox></CellContents></TablixCell>
+                <TablixCell><CellContents><Textbox Name="CabecalhoResultado"><Value>Resultado</Value></Textbox></CellContents></TablixCell>
+                <TablixCell><CellContents><Textbox Name="CabecalhoValorResultado"><Value>Valor do resultado</Value></Textbox></CellContents></TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy><TablixMembers><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /></TablixMembers></TablixColumnHierarchy>
+        <TablixRowHierarchy><TablixMembers><TablixMember /></TablixMembers></TablixRowHierarchy>
+        <DataSetName>RelatorioFinanceiro</DataSetName>
+        <Top>1cm</Top>
+        <Left>0cm</Left>
+        <Height>0.6cm</Height>
+        <Width>16cm</Width>
+      </Tablix>
+    </ReportItems>
+    <Height>3cm</Height>
+  </Body>
+  <Width>16cm</Width>
+  <DataSources>
+    <DataSource Name="FinanceControlDataSource">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:DataSourceID>11111111-1111-1111-1111-111111111111</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="RelatorioFinanceiro">
+      <Fields>
+        <Field Name="Rotulo"><DataField>Rotulo</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Gastos"><DataField>Gastos</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="Ganhos"><DataField>Ganhos</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="SinalResultado"><DataField>SinalResultado</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Resultado"><DataField>Resultado</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+      </Fields>
+      <Query>
+        <DataSourceName>FinanceControlDataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

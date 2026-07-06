@@ -1,0 +1,50 @@
+﻿@model FinanceControl.Core.ViewModels.FinanceListagemViewModel
+@using FinanceControl.Core.Enums
+@using FinanceControl.Core.Util
+
+<div class="table-responsive tabela-financas">
+    <table class="table table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th class="text-end">Valor</th>
+                <th class="text-center coluna-acoes">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Financas.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Nenhuma finança encontrada.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Financas)
+                {
+                    <tr>
+                        <td>@item.DataInclusao.ToString("dd/MM/yyyy")</td>
+                        <td><span class="badge @(item.Tipo == FinanceType.Ganho ? "bg-success" : "bg-danger")">@item.Tipo</span></td>
+                        <td>@item.Descricao</td>
+                        <td class="text-end">@item.Valor.ToMoedaBr()</td>
+                        <td class="text-center coluna-acoes">
+                            <a class="btn btn-sm btn-outline-secondary btn-icon" href="@Url.Action("Form", "Finance", new { id = item.Id, visualizar = true })" title="Visualizar" aria-label="Visualizar">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-primary btn-icon" href="@Url.Action("Form", "Finance", new { id = item.Id })" title="Editar" aria-label="Editar">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <button class="btn btn-sm btn-outline-danger btn-excluir-financa btn-icon" data-id="@item.Id" title="Excluir" aria-label="Excluir">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.Partial("~/Views/Shared/Components/_Paginacao.cshtml", Model)

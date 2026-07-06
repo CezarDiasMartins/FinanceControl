@@ -1,0 +1,76 @@
+@model FinanceControl.Core.ViewModels.PerfilViewModel
+@{
+    ViewBag.Title = "Perfil";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Meu perfil</h1>
+    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalExcluirPerfil">
+        <i class="fa-solid fa-trash me-1"></i>Excluir
+    </button>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row g-3">
+        <div class="col-md-6">
+            @Html.LabelFor(x => x.Nome, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Nome, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(x => x.CPF, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.CPF, new { @class = "form-control cpf-mask", inputmode = "numeric", maxlength = "14", autocomplete = "off" })
+            @Html.ValidationMessageFor(x => x.CPF, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(x => x.Email, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email", autocomplete = "email" })
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(x => x.NovaSenha, "Nova senha", new { @class = "form-label" })
+            @Html.PasswordFor(x => x.NovaSenha, new { @class = "form-control", autocomplete = "new-password" })
+            <div class="form-text">Deixe em branco para manter a senha atual.</div>
+            @Html.ValidationMessageFor(x => x.NovaSenha, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(x => x.ConfirmacaoNovaSenha, "Confirme a senha", new { @class = "form-label" })
+            @Html.PasswordFor(x => x.ConfirmacaoNovaSenha, new { @class = "form-control", autocomplete = "new-password" })
+            @Html.ValidationMessageFor(x => x.ConfirmacaoNovaSenha, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-actions">
+        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Home")">
+            <i class="fa-solid fa-arrow-left me-1"></i>Voltar
+        </a>
+        <button class="btn btn-primary" type="submit">
+            <i class="fa-solid fa-floppy-disk me-1"></i>Salvar
+        </button>
+    </div>
+}
+
+<div class="modal fade" id="modalExcluirPerfil" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("ExcluirPerfil", "User", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">Excluir perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">Deseja realmente excluir seu perfil?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa-solid fa-trash me-1"></i>Excluir
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

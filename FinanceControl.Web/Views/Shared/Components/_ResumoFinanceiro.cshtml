@@ -1,0 +1,29 @@
+@model FinanceControl.Core.ViewModels.FinanceListagemViewModel
+@using FinanceControl.Core.Util
+
+@{
+    var totalGastos = Convert.ToDecimal(Model.TotalGastos);
+    var totalGanhos = Convert.ToDecimal(Model.TotalGanhos);
+    var resultado = Convert.ToDecimal(Model.Resultado);
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="resumo-card border-start border-4 border-danger">
+            <span>Gastos</span>
+            <strong>@totalGastos.ToMoedaBr()</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="resumo-card border-start border-4 border-success">
+            <span>Ganhos</span>
+            <strong>@totalGanhos.ToMoedaBr()</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="resumo-card border-start border-4 border-primary">
+            <span>Resultado</span>
+            <strong class="@(resultado >= 0 ? "text-success" : "text-danger")">@resultado.ToMoedaBr()</strong>
+        </div>
+    </div>
+</div>

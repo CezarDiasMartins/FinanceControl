@@ -1,0 +1,27 @@
+@model FinanceControl.Core.ViewModels.NovaSenhaViewModel
+@{
+    ViewBag.Title = "Nova senha";
+}
+
+<div class="auth-box">
+    <h1 class="h3 mb-3">Informar nova senha</h1>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Token)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(x => x.Senha, "Nova senha", new { @class = "form-label" })
+            @Html.PasswordFor(x => x.Senha, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Senha, "", new { @class = "text-danger" })
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(x => x.ConfirmacaoSenha, "Confirme a senha", new { @class = "form-label" })
+            @Html.PasswordFor(x => x.ConfirmacaoSenha, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.ConfirmacaoSenha, "", new { @class = "text-danger" })
+        </div>
+        <button class="btn btn-primary w-100" type="submit">
+            <i class="fa-solid fa-floppy-disk me-1"></i>Alterar senha
+        </button>
+    }
+</div>

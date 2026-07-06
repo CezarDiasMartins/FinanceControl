@@ -1,0 +1,46 @@
+@model FinanceControl.Core.ViewModels.CadastroViewModel
+@{
+    ViewBag.Title = "Cadastro";
+}
+
+<div class="auth-box auth-box-lg">
+    <h1 class="h3 mb-3">Criar conta</h1>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row g-3">
+            <div class="col-md-12">
+                @Html.LabelFor(x => x.Nome, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Nome, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(x => x.CPF, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.CPF, new { @class = "form-control cpf-mask", inputmode = "numeric", maxlength = "14", autocomplete = "off" })
+                @Html.ValidationMessageFor(x => x.CPF, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(x => x.Email, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email", autocomplete = "email" })
+                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(x => x.Senha, new { @class = "form-label" })
+                @Html.PasswordFor(x => x.Senha, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Senha, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(x => x.ConfirmacaoSenha, "Confirme a senha", new { @class = "form-label" })
+                @Html.PasswordFor(x => x.ConfirmacaoSenha, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ConfirmacaoSenha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <button class="btn btn-primary w-100 mt-3" type="submit">
+            <i class="fa-solid fa-user-plus me-1"></i>Cadastrar
+        </button>
+    }
+    <a class="btn btn-outline-secondary w-100 mt-2" href="@Url.Action("Login", "Auth")">
+        <i class="fa-solid fa-arrow-left me-1"></i>Voltar para o login
+    </a>
+</div>

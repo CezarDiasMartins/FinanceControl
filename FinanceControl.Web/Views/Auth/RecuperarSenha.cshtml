@@ -1,0 +1,24 @@
+@model FinanceControl.Core.ViewModels.RecuperarSenhaViewModel
+@{
+    ViewBag.Title = "Recuperar senha";
+}
+
+<div class="auth-box">
+    <h1 class="h3 mb-3">Recuperar senha</h1>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(x => x.Email, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email", autocomplete = "email" })
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+        </div>
+        <button class="btn btn-primary w-100" type="submit">
+            <i class="fa-solid fa-envelope me-1"></i>Enviar link
+        </button>
+    }
+    <a class="btn btn-outline-secondary w-100 mt-2" href="@Url.Action("Login", "Auth")">
+        <i class="fa-solid fa-arrow-left me-1"></i>Voltar para o login
+    </a>
+</div>

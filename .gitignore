@@ -1,0 +1,16 @@
+bin/
+obj/
+.vs/
+packages/
+*.user
+*.suo
+*.pdb
+*.cache
+*.log
+App_Data/
+FinanceControl.Web/bin/
+FinanceControl.Web/obj/
+FinanceControl.Core/bin/
+FinanceControl.Core/obj/
+FinanceControl.Infrastructure/bin/
+FinanceControl.Infrastructure/obj/

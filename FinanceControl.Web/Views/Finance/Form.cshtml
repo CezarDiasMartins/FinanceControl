@@ -1,0 +1,52 @@
+﻿@model FinanceControl.Core.ViewModels.FinancaFormViewModel
+@using FinanceControl.Core.Enums
+@{
+    ViewBag.Title = Model.SomenteLeitura ? "Visualizar finança" : (Model.Id == 0 ? "Adicionar finança" : "Editar finança");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">@ViewBag.Title</h1>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.SomenteLeitura)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <fieldset @(Model.SomenteLeitura ? "disabled" : "")>
+        <div class="row g-3">
+            <div class="col-md-4">
+                @Html.LabelFor(x => x.Tipo, new { @class = "form-label" })
+                @Html.EnumDropDownListFor(x => x.Tipo, "Selecione", new { @class = "form-select" })
+                @Html.ValidationMessageFor(x => x.Tipo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(x => x.Valor, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.Valor, "{0:N2}", new { @class = "form-control", inputmode = "decimal", placeholder = "0,00" })
+                @Html.ValidationMessageFor(x => x.Valor, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(x => x.DataInclusao, "Data", new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.DataInclusao, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(x => x.DataInclusao, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-12">
+                @Html.LabelFor(x => x.Descricao, "Descrição", new { @class = "form-label" })
+                @Html.TextAreaFor(x => x.Descricao, new { @class = "form-control", rows = 4 })
+                @Html.ValidationMessageFor(x => x.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </fieldset>
+    <div class="form-actions">
+        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Home")">
+            <i class="fa-solid fa-arrow-left me-1"></i>Voltar
+        </a>
+        @if (!Model.SomenteLeitura)
+        {
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk me-1"></i>Salvar
+            </button>
+        }
+    </div>
+}

@@ -1,0 +1,58 @@
+﻿@model FinanceControl.Core.ViewModels.UsuarioListagemViewModel
+@using FinanceControl.Core.Util
+@{
+    ViewBag.Title = "Usuários";
+}
+
+@Html.AntiForgeryToken()
+
+<h1 class="h3 mb-4">Usuários</h1>
+<div class="table-responsive tabela-financas">
+    <table class="table table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+                <th class="text-center coluna-acoes">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model.Usuarios)
+            {
+                <tr>
+                    <td>@usuario.Nome</td>
+                    <td>@usuario.CPF.FormatarCpf()</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.Role</td>
+                    <td class="text-center coluna-acoes">
+                        <button class="btn btn-sm btn-outline-danger btn-excluir-usuario btn-icon" data-id="@usuario.Id" title="Excluir" aria-label="Excluir">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.Partial("~/Views/Shared/Components/_ModalExclusao.cshtml")
+
+@section scripts {
+    <script>
+        $('.btn-excluir-usuario').on('click', function () {
+            $('#modalConfirmacao').data('id', $(this).data('id')).modal('show');
+        });
+
+        $('#btnConfirmarExclusao').on('click', function () {
+            $.post('@Url.Action("Excluir", "User")', {
+                id: $('#modalConfirmacao').data('id'),
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').first().val()
+            }, function (retorno) {
+                if (retorno.sucesso) { location.reload(); }
+                else { alert(retorno.mensagem); }
+            });
+        });
+    </script>
+}

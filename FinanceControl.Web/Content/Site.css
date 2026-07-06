@@ -1,0 +1,133 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+body {
+    background: #f4f6f8;
+}
+
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+.body-content {
+    min-height: calc(100vh - 150px);
+}
+
+.auth-box {
+    max-width: 430px;
+    margin: 48px auto;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+}
+
+.auth-box-lg {
+    max-width: 760px;
+}
+
+.resumo-card,
+.tabela-financas {
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .05);
+}
+
+.resumo-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px;
+}
+
+.resumo-card span {
+    color: #64748b;
+    font-size: .9rem;
+}
+
+.resumo-card strong {
+    font-size: 1.35rem;
+}
+
+.toolbar-listagem {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 3fr auto auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+}
+
+.btn-sm.btn-icon {
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+}
+
+.coluna-acoes {
+    width: 132px;
+    white-space: nowrap;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.field-validation-error {
+    display: block;
+    margin-top: 4px;
+    font-size: .875rem;
+}
+
+@media (max-width: 575.98px) {
+    .toolbar-listagem {
+        grid-template-columns: 1fr;
+    }
+
+    .tabela-financas .btn {
+        margin-top: 4px;
+    }
+
+    .form-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
