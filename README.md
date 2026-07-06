@@ -2,7 +2,7 @@
 
 Sistema web para controle de finanças pessoais, desenvolvido em ASP.NET MVC com .NET Framework 4.8.
 
-O projeto foi construído com foco em organização por camadas, separação de responsabilidades e recursos comuns em aplicações corporativas, como autenticação, roles, criptografia de senha, filtros, paginação, operações via AJAX e geração de relatórios.
+O projeto foi construído com foco em organização por camadas, separação de responsabilidades e recursos comuns em aplicações corporativas, como autenticação, perfis, criptografia de senha, filtros, paginação, operações via AJAX e geração de relatórios.
 
 ## Visão geral
 
