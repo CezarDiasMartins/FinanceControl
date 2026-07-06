@@ -45,8 +45,8 @@ FinanceControl
 |   +-- Enums
 |   +-- Util
 +-- FinanceControl.Infrastructure
-    +-- Data
-    +-- Repositories
-    +-- Scripts
-    +-- Reports
+|   +-- Data
+|   +-- Repositories
+|   +-- Scripts
+|   +-- Reports
 ```
